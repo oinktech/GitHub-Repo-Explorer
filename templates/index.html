@@ -1,60 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Repo Viewer</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>GitHub 文件瀏覽器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #f2f2f2;
             padding: 20px;
-            text-align: center;
         }
         h1 {
+            text-align: center;
             color: #333;
-            margin-bottom: 20px;
         }
         form {
-            display: inline-block;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
         }
-        input {
+        input[type="text"] {
             padding: 10px;
             width: 300px;
-            border-radius: 5px;
             border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        button {
-            background-color: #00bfff;
-            color: white;
+        input[type="submit"] {
             padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0099cc;
-        }
-        .bx-loader {
-            font-size: 50px;
-            display: none;
+        input[type="submit"]:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>GitHub 儲存庫檢視器</h1>
-    <form method="POST" id="repo-form">
-        <input type="text" name="github_url" placeholder="https://github.com/owner/repo" required>
-        <button type="submit"><i class='bx bx-search-alt'></i> 查詢</button>
+    <h1>GitHub 文件瀏覽器</h1>
+    <form method="post">
+        <input type="text" name="github_url" placeholder="輸入 GitHub 存儲庫 URL" required>
+        <input type="submit" value="查詢">
     </form>
-    <div id="loading" class="bx bx-loader bx-spin"></div>
-
-    <script>
-        document.getElementById('repo-form').addEventListener('submit', function() {
-            document.getElementById('loading').style.display = 'block';
-        });
-    </script>
 </body>
 </html>
