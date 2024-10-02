@@ -31,7 +31,7 @@ def extract_repo_info(url):
     if len(parts) >= 2:
         return parts[-2], parts[-1]
     else:
-        raise ValueError("Invalid GitHub URL")
+        raise ValueError("無效的 GitHub URL")
 
 def list_files(owner, repo, path=""):
     url = GITHUB_API_URL.format(owner=owner, repo=repo, path=path)
@@ -44,7 +44,7 @@ def list_files(owner, repo, path=""):
         files = response.json()
         return render_template('files.html', files=files, owner=owner, repo=repo, path=path)
     else:
-        return render_template('error.html', error_message=f"Error: {response.status_code}")
+        return render_template('error.html', error_message=f"錯誤: {response.status_code}")
 
 @app.route('/file/<owner>/<repo>/<path:filepath>', methods=['GET'])
 def show_file(owner, repo, filepath):
@@ -57,13 +57,13 @@ def show_file(owner, repo, filepath):
     if response.status_code == 200:
         file_content = response.json().get('content', '')
         
-        # 确保正确解码内容
+        # 確保正確解碼內容
         if response.json().get('encoding') == 'base64':
             file_content = base64.b64decode(file_content).decode('utf-8')
 
         return render_template('file_viewer.html', content=file_content, filename=filepath)
     else:
-        return render_template('error.html', error_message=f"Error: {response.status_code}")
+        return render_template('error.html', error_message=f"錯誤: {response.status_code}")
 
 @app.route('/folder/<owner>/<repo>/<path:folderpath>', methods=['GET'])
 def view_folder(owner, repo, folderpath):
