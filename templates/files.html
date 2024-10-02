@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Files in Repo</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: #00bfff;
+        }
+        button {
+            background-color: #00bfff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #0099cc;
+        }
+        .bx-copy {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>檔案列表</h1>
+    <ul id="file-list">
+        {% for file in files %}
+        <li>
+            <a href="/file/{{ owner }}/{{ repo }}/{{ file.path }}">{{ file.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <button id="copy-all-btn"><i class='bx bx-copy'></i> 一鍵複製所有程式碼</button>
+
+    <a href="/">返回首頁</a>
+
+    <script>
+        document.getElementById('copy-all-btn').addEventListener('click', function() {
+            fetchAllFiles();
+
+            async function fetchAllFiles() {
+                const files = {{ files | tojson }};
+                let allCode = '';
+
+                for (const file of files) {
+                    const response = await fetch(`/file/{{ owner }}/{{ repo }}/${file.path}`);
+                    const text = await response.text();
+                    const start = text.indexOf('<div id="content">');
+                    const end = text.indexOf('</div>');
+                    const code = text.substring(start + 18, end).trim();
+
+                    allCode += `/${file.path}\n${code}\n\n`;
+                }
+
+                copyToClipboard(allCode);
+            }
+
+            function copyToClipboard(content) {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = content;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+                alert('所有程式碼已複製');
+            }
+        });
+    </script>
+</body>
+</html>
