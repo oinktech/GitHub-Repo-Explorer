@@ -3,16 +3,12 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# 加载环境变量
 load_dotenv()
 
 app = Flask(__name__)
 
-# GitHub API URL 模板
 GITHUB_API_URL = "https://api.github.com/repos/{owner}/{repo}/contents/{path}"
-
-# 从环境变量中获取 GitHub Token
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # 从 .env 文件加载
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -58,6 +54,10 @@ def show_file(owner, repo, filepath):
         return render_template('file_viewer.html', content=file_content, filename=filepath)
     else:
         return render_template('error.html', error_message=f"Error: {response.status_code}")
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
