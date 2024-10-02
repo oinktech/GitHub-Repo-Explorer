@@ -1,58 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Content</title>
+    <title>查看 {{ filename }}</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #f2f2f2;
             padding: 20px;
         }
         h1 {
+            text-align: center;
             color: #333;
         }
-        #content {
-            white-space: pre;
-            background-color: #f4f4f4;
-            padding: 10px;
+        pre {
+            background-color: #fff;
             border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
             overflow-x: auto;
-            margin-bottom: 20px;
         }
         button {
-            background-color: #00bfff;
-            color: white;
+            display: block;
+            margin: 20px auto;
             padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0099cc;
+            background-color: #0056b3;
         }
-        .bx-copy {
-            margin-right: 5px;
+        img, video {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 20px auto;
         }
     </style>
 </head>
 <body>
-    <h1>{{ filename }}</h1>
-    <div id="content">{{ content }}</div>
-    <button onclick="copyToClipboard()"><i class='bx bx-copy'></i> 複製程式碼</button>
+    <h1>查看 {{ filename }}</h1>
+    <pre>{{ content }}</pre>
+    <button onclick="copyToClipboard()">複製程式碼</button>
 
     <script>
         function copyToClipboard() {
-            const content = document.getElementById('content').innerText;
             const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = content;
+            tempTextArea.value = document.querySelector('pre').innerText;
             document.body.appendChild(tempTextArea);
             tempTextArea.select();
             document.execCommand('copy');
             document.body.removeChild(tempTextArea);
-            alert('程式碼已複製');
+            alert('程式碼已複製到剪貼簿！');
         }
     </script>
 </body>
