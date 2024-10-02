@@ -47,15 +47,23 @@
         .copy-button:hover {
             background-color: #218838;
         }
-        img, video {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 10px;
+        .copy-all-button {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .copy-all-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <h1>文件列表 - {{ repo }}</h1>
+    <button class="copy-all-button" onclick="copyAllFiles()">一鍵複製所有程式碼</button>
     <ul class="file-list">
         {% for file in files %}
             {% if file['type'] == 'file' %}
@@ -91,7 +99,36 @@
                     document.execCommand('copy');
                     document.body.removeChild(tempTextArea);
                     alert('程式碼已複製到剪貼簿！');
+                })
+                .catch(error => {
+                    alert('複製失敗，請重試！');
                 });
+        }
+
+        function copyAllFiles() {
+            let allContent = '';
+            const filePromises = [];
+
+            // 获取所有文件内容
+            document.querySelectorAll('.file-item .file-name').forEach(fileName => {
+                const filepath = fileName.innerText;
+                const fetchPromise = fetch(`/file/${filepath}`).then(response => response.text()).then(data => {
+                    allContent += `${filepath}\n${data}\n\n`;
+                });
+                filePromises.push(fetchPromise);
+            });
+
+            Promise.all(filePromises).then(() => {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = allContent;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+                alert('所有程式碼已複製到剪貼簿！');
+            }).catch(error => {
+                alert('複製失敗，請重試！');
+            });
         }
     </script>
 </body>
