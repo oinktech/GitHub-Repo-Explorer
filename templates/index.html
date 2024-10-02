@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repo Viewer</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #00bfff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0099cc;
+        }
+        .bx-loader {
+            font-size: 50px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub 儲存庫檢視器</h1>
+    <form method="POST" id="repo-form">
+        <input type="text" name="github_url" placeholder="https://github.com/owner/repo" required>
+        <button type="submit"><i class='bx bx-search-alt'></i> 查詢</button>
+    </form>
+    <div id="loading" class="bx bx-loader bx-spin"></div>
+
+    <script>
+        document.getElementById('repo-form').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
