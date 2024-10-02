@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff0f0;
+            color: #ff0000;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .bx-error {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #00bfff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <i class='bx bx-error'></i>
+    <h1>發生錯誤</h1>
+    <p>{{ error_message }}</p>
+    <a href="/">返回首頁</a>
+</body>
+</html>
